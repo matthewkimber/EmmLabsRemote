@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+	ToolsVersion="4.0"
+	DefaultTargets="Compile">
+
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">debug</Configuration>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<BuildDirectory Include=".\build\" />
+		<SolutionFile Include=".\EmmLabs.Remote.sln" />
+	</ItemGroup>
+
+	<Target Name="clean">
+		<RemoveDir Directories="@(BuildDirectory)" />
+	</Target>
+
+	<Target Name="init" DependsOnTargets="clean">
+		<MakeDir Directories="@(BuildDirectory)" />
+	</Target>
+
+	<Target Name="compile" DependsOnTargets="init">
+		<MSBuild Projects="@(SolutionFile)" Targets="Rebuild" Properties="OutDir=%(BuildDirectory.FullPath);Configuration=$(Configuration)" />
+	</Target>
+</Project>
