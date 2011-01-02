@@ -1,0 +1,14 @@
+# -- Resharper Files --
+_ReSharper*
+*.ReSharper.user
+
+# -- Build Products --
+build
+bin
+obj
+
+# -- VS.NET Generated Files --
+*.suo
+
+# -- VS.NET Addon Generated --
+*.vs10x

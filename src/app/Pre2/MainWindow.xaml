@@ -1,0 +1,109 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Pre2" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:GalaSoft_MvvmLight_Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4" mc:Ignorable="d" x:Class="Pre2.MainWindow"
+        Title="Pre2 Remote"
+        Height="240"
+        Width="763"
+        ResizeMode="CanMinimize" Icon="Pre2.ico">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        	<local:InputNumberValueConverter x:Key="InputNumberValueConverter"/>
+        	<local:IntegerToDoubleValueConverter x:Key="IntegerToDoubleValueConverter"/>
+
+			<Style TargetType="{x:Type ListBox}">
+				<Setter Property="ItemTemplate">
+					<Setter.Value>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical" Margin="5">
+								<Image Source="InputButton.png" Stretch="UniformToFill" Width="24" Height="24" />
+								<TextBlock Text="{Binding}" Width="16" TextAlignment="Center" />
+							</StackPanel>
+						</DataTemplate>
+					</Setter.Value>
+				</Setter>
+				<Setter Property="ItemsPanel">
+					<Setter.Value>
+						<ItemsPanelTemplate>
+							<WrapPanel Width="110" />
+						</ItemsPanelTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			
+			<Style x:Key="RoundedItemContainer" TargetType="{x:Type ListBoxItem}">
+		    	<Setter Property="Template">
+		        	<Setter.Value>
+		          		<ControlTemplate TargetType="{x:Type ListBoxItem}">
+				            <Border Background="Transparent"
+				                    CornerRadius="3"
+				                    BorderThickness="0"
+				                    x:Name="IconBorder"
+				                    Margin="0" >
+		              			<ContentPresenter />
+		            		</Border>
+				            <ControlTemplate.Triggers>
+				              	<Trigger Property="IsSelected" Value="true">
+				                	<Setter TargetName="IconBorder" Property="Background">
+				                  		<Setter.Value>
+				                    		<SolidColorBrush Color="#FFBBBBBB" />
+				                  		</Setter.Value>
+				                	</Setter>
+				              	</Trigger>
+				            </ControlTemplate.Triggers>
+			          	</ControlTemplate>
+		        	</Setter.Value>
+		      	</Setter>
+		    </Style>
+		</ResourceDictionary>		
+    </Window.Resources>
+
+	<Window.DataContext>
+		<Binding Path="Main" Source="{StaticResource Locator}"/>
+	</Window.DataContext>
+
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+				<GradientStop Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" Offset="0"/>
+				<GradientStop Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}" Offset="1"/>
+			</LinearGradientBrush>
+		</Grid.Background>
+		<Grid x:Name="DisplayGrid" Margin="24,18,194.5,0" Height="136.8" VerticalAlignment="Top">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="0.475*"/>
+				<RowDefinition Height="0.525*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.52*"/>
+				<ColumnDefinition Width="0.48*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.OpacityMask>
+				<VisualBrush Visual="{Binding ElementName=mask}" />
+			</Grid.OpacityMask>
+			<Border x:Name="mask" CornerRadius="8" Grid.ColumnSpan="2" Grid.RowSpan="2">
+				<Border.Background>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#FF000129" Offset="0"/>
+						<GradientStop Color="#FF000146" Offset="1"/>
+					</LinearGradientBrush>
+				</Border.Background>
+			</Border>
+			<TextBlock x:Name="SelectedInputTextBlock" Grid.Column="0" Grid.Row="0" Text="{Binding CurrentInput.Number, Converter={StaticResource InputNumberValueConverter}, Mode=OneWay}" FontSize="42.667" Foreground="#FF003EFF" TextAlignment="Left" Margin="15,10,0,0" />
+			<TextBlock x:Name="SelectedInputNameTextBlock" Grid.Column="0" Grid.Row="1" Text="{Binding CurrentInput.Name}" Foreground="#FF003EFF" TextAlignment="Left" Margin="15,0,0,0" FontSize="18.667" Height="43.848" VerticalAlignment="Top" />
+			<TextBlock x:Name="VolumeTextBlock" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Volume}" FontSize="120" Foreground="#FF003EFF" TextAlignment="Right" HorizontalAlignment="Right" Width="234.72" Margin="0,-20,10,0"/>
+		</Grid>
+		<ToggleButton Content="_Mute" HorizontalAlignment="Left" Margin="24,168.04,0,0" VerticalAlignment="Top" Padding="5, 3, 5, 3"/>
+		<ListBox HorizontalAlignment="Right" Margin="0,18,53.5,0" Width="116" ItemsSource="{Binding Inputs}" ItemContainerStyle="{StaticResource RoundedItemContainer}" FontFamily="Tahoma" FontSize="18.667" SelectedItem="{Binding CurrentInput}" Height="119.8" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" >
+			<ListBox.Background>
+				<ImageBrush Stretch="UniformToFill"/>
+			</ListBox.Background>
+		</ListBox>
+		<Slider x:Name="slider" Margin="0,18,21,0" Style="{DynamicResource SimpleSlider}" Orientation="Vertical" HorizontalAlignment="Right" Value="{Binding Volume, Converter={StaticResource IntegerToDoubleValueConverter}, Mode=TwoWay}" Maximum="100" SmallChange="1" LargeChange="10" Height="176" VerticalAlignment="Top" IsSnapToTickEnabled="True"/>
+		<Button Content="_Settings..." HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,194.5,18" Padding="5,3" Command="{Binding ShowSettingsDialogCommand, Mode=OneWay}"/>
+	</Grid>
+</Window>
