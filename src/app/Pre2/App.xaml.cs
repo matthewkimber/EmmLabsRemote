@@ -12,5 +12,10 @@ namespace Pre2
         {
             DispatcherHelper.Initialize();
         }
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Crash!", e.Exception.Message);
+        }
     }
 }

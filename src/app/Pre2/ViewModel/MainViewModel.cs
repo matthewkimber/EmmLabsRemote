@@ -52,6 +52,22 @@ namespace Pre2.ViewModel
             }
         }
 
+        public bool IsMuted
+        {
+            get
+            {
+                return _pre2.IsMuted;
+            }
+            set
+            {
+                if (_pre2.IsMuted != value)
+                {
+                    _pre2.IsMuted = value;
+                    RaisePropertyChanged("IsMuted");
+                }
+            }
+        }
+
         public RelayCommand ShowSettingsDialogCommand { get; private set; }
 
         public MainViewModel()

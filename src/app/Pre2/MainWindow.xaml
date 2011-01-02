@@ -97,7 +97,7 @@
 			<TextBlock x:Name="SelectedInputNameTextBlock" Grid.Column="0" Grid.Row="1" Text="{Binding CurrentInput.Name}" Foreground="#FF003EFF" TextAlignment="Left" Margin="15,0,0,0" FontSize="18.667" Height="43.848" VerticalAlignment="Top" />
 			<TextBlock x:Name="VolumeTextBlock" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Volume}" FontSize="120" Foreground="#FF003EFF" TextAlignment="Right" HorizontalAlignment="Right" Width="234.72" Margin="0,-20,10,0"/>
 		</Grid>
-		<ToggleButton Content="_Mute" HorizontalAlignment="Left" Margin="24,168.04,0,0" VerticalAlignment="Top" Padding="5, 3, 5, 3"/>
+		<ToggleButton Content="_Mute" HorizontalAlignment="Left" Margin="24,168.04,0,0" VerticalAlignment="Top" Padding="5, 3, 5, 3" IsChecked="{Binding IsMuted}"/>
 		<ListBox HorizontalAlignment="Right" Margin="0,18,53.5,0" Width="116" ItemsSource="{Binding Inputs}" ItemContainerStyle="{StaticResource RoundedItemContainer}" FontFamily="Tahoma" FontSize="18.667" SelectedItem="{Binding CurrentInput}" Height="119.8" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" >
 			<ListBox.Background>
 				<ImageBrush Stretch="UniformToFill"/>
