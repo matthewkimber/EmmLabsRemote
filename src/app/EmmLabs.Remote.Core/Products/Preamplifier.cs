@@ -118,6 +118,7 @@ namespace EmmLabs.Remote.Core
                 Inputs.Add(new Input(inputCount + 1));
             }
 
+            _isMuted = false;
             _currentInput = Inputs[0];
             _commChannel = new SerialCommunicationChannel();
         }
@@ -207,26 +208,14 @@ namespace EmmLabs.Remote.Core
 
         private void MuteOn()
         {
-            if (!IsMuted)
-            {
-                SendCommand(PreamplifierMessage.CreateMuteMessage(PreamplifierMuteState.On));
-                _isMuted = true;
-            }
+            SendCommand(PreamplifierMessage.CreateMuteMessage(PreamplifierMuteState.On));
+            _isMuted = true;
         }
 
         private void MuteOff()
         {
-            if (IsMuted)
-            {
                 SendCommand(PreamplifierMessage.CreateMuteMessage(PreamplifierMuteState.Off));
                 _isMuted = false;
-            }
-
-            if (IsSoftMuted)
-            {
-                SendCommand(PreamplifierMessage.CreateMuteMessage(PreamplifierMuteState.Off));
-                _isSoftMuted = false;
-            }
         }
 
         private void MuteSoft()
